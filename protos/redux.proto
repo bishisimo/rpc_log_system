@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+service Redux {
+    //传入id,返回:"ok"
+    rpc AddPub (AddPubRequest) returns (Reply) {
+    }
+    //流式传入发布的数据,返回:"ok"
+    rpc PubMsg (stream PubMessage) returns (Reply) {
+    }
+    //删除发布,返回:"ok"
+    rpc RemovePub (RemovePubRequest) returns (Reply) {
+    }
+    //添加流式订阅,返回流式数据
+    rpc AddSub (AddSubRequest) returns (stream FlowSubReply) {
+    }
+    //传入自己id进行注销流式订阅
+    rpc GetTargetPath (GetTargetPathRequest) returns (TargetPathReply) {
+    }
+    //传入自己id进行注销
+    rpc RemoveSub (RemoveSubRequest) returns (Reply) {
+    }
+    rpc ShowInfo (BlankRequest) returns (InfoReply) {
+    }
+}
+message Reply {
+    string status = 1;
+}
+message AddPubRequest {
+    string Id = 1;
+}
+message PubMessage {
+    string Id = 1;
+    string Msg = 2;
+}
+message RemovePubRequest {
+    string Id = 1;
+}
+message AddSubRequest {
+    string Id = 1;
+    string AcceptType = 2;
+    bool IsFlow = 3;
+}
+message FlowSubReply {
+    string Body = 1;
+}
+message GetTargetPathRequest {
+    string Id = 1;
+}
+message TargetPathReply {
+    repeated string Paths = 1;
+}
+message RemoveSubRequest {
+    string Id = 1;
+}
+message BlankRequest {
+}
+message InfoReply{
+    bytes Info=1;
+}
